@@ -1,21 +1,22 @@
 Sets
 i 'data point i'
 p 'predictor variable p e.g. x(i, p)'
-                    
+* all nodes                    
 n /1*7/
-
+* non-terminal nodes
 xt(n) /1*3/
-
+* terminal nodes
 nterm(n)
-
+*  tree layers excluding the terminal layer 
 layers /1*2/
+* nodes present within each layer excluding the terminal layer
 xlayers(layers,xt) /1. 2*3
                     2. 1
                     /
 
 * Operators including binary, uniray and predictors/constants
 b /'+','x1','x2','*','const','cube'/
-* List of avaliable variables that you dont want to use
+* List of avaliable operators that you dont want to use
 nb(b)//
 *List of binary variables
 bi(b) /'+','*'/
@@ -43,8 +44,8 @@ Binary Variables
 y(b,n) * binary variable for all operators.
 ; 
 Parameters
-z(i)
-std
+z(i) * response data
+std * standard deviation of response data
 vup2(i,n)  * final upper bound for each node
 vlo2(i,n)  * final lower bound for each node
 Mup(i,n,b) * big M up
@@ -71,7 +72,7 @@ $load p = Dim2
 $load x
 $gdxIn
 conLO = -conUP;
-* Function 
+* Function to be determined
 z(i) =  2*x(i,'1')/exp(0.1*x(i,'2'));
 * Standards deviation of response data
 std = sqrt(sum(i,sqr(z(i)-sum(j,z(j))/card(z)))/(card(z)-1));
@@ -80,7 +81,7 @@ std = sqrt(sum(i,sqr(z(i)-sum(j,z(j))/card(z)))/(card(z)-1));
 vup2(i,nterm) = s+max(smax(p, x(i, p)),conUP);
 vlo2(i,nterm) = -s+min(smin(p, x(i, p)),conLO);
 
-* sets node limits for layers above terminal nodes
+* bottom up interval arithmatic to set node limits for layers above terminal nodes
 loop((xlayers(layers,xt(n))),
 
  vup(i,n,'+') =  s+vup2(i,n+ord(n))+vup2(i,n+(ord(n)+1));
@@ -108,7 +109,7 @@ vlo2(i,n) = max(-Vlim,smin(b,vlo(i,n,b)));
 
 
 );
-
+* root nodes limits
 vup2(i,'1') = z(i)+2*std;
 vlo2(i,'1') = z(i)-2*std;
 

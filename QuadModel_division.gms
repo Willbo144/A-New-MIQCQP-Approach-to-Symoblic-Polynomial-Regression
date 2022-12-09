@@ -55,7 +55,7 @@ Binary Variables
 z(m) *Binary variable controlling each term
 wl(m,i) *Left component binary variable 
 wr(m,j) * Right component binary variable 
-h(m);
+h(m) * Binary variable controlling multiplication and division;
 
 B = 10000;
 BigM = 4;

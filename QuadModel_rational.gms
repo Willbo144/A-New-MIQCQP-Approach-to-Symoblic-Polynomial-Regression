@@ -80,20 +80,20 @@ decompLb,decompRb,
 valuesb
 surrogate
 ;
-
+* Numerator
 error.. sum(d, sqr(Y(d) - ans(d))) =e= er;
 Termlim.. sum(m, z(m)) =l= BigM;
 Coefflim(m).. abs(a(m)) =l= z(m)*B;
 decompL(q).. sum(Qi(q,i),wl(q,i)) =e= 1;
 decompR(q).. sum(Qj(q,j),wr(q,j)) =e= 1; 
 values(Qm(q,i,j),d).. abs(v(d,q) - v(d,i)*v(d,j)) =l= (2-wl(q,i)-wr(q,j))*B;
-
+* Denominator
 Termlimb.. sum(m, zb(m)) =l= BigM;
 Coefflimb(m).. abs(be(m)) =l= zb(m)*B;
 decompLb(q).. sum(Qi(q,i),gl(q,i)) =e= 1;
 decompRb(q).. sum(Qj(q,j),gr(q,j)) =e= 1; 
 valuesb(Qm(q,i,j),d).. abs(vb(d,q) - vb(d,i)*vb(d,j)) =l= (2-gl(q,i)-gr(q,j))*B;
-
+* Final rational function surrogate
 surrogate(d).. (a0+sum(m,a(m)*v(d,m)))/(b0+sum(m,be(m)*vb(d,m))) =e= ans(d);   
 
 Model equ /all/;
